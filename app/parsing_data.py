@@ -3,7 +3,7 @@ import psycopg2
 
 # connection parameters
 host = 'localhost'
-port = '5432'
+port = '6545'
 username = 'show'
 password = '1238'
 database = 'new_db'

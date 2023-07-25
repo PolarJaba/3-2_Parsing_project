@@ -10,7 +10,7 @@ services:
   db:
     image: postgres:latest
     ports:
-      - "5432:5432"
+      - "6545:5432"
     environment:
       POSTGRES_DB: "new_db"
       POSTGRES_USER: "show"
@@ -20,12 +20,12 @@ services:
       - ../2. Init Database:/docker-entrypoint-initdb.d
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready -U  show -d"]
+      test: ["CMD", "pg_isready -U  show -d new_db"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    restart: unless-stopped
+    restart: always
     deploy:
       resources:
         limits:
