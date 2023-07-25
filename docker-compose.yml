@@ -20,7 +20,7 @@ services:
       - ../2. Init Database:/docker-entrypoint-initdb.d
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready -U  show -d"]
+      test: ["CMD", "pg_isready -U  show -d new_db"]
       interval: 10s
       timeout: 5s
       retries: 5
