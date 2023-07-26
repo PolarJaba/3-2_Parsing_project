@@ -2,11 +2,11 @@ import requests
 import psycopg2
 
 # connection parameters
-host = 'localhost'
+host = 'postgres'
 port = '5432'
-username = 'show'
-password = '1238'
-database = 'new_db'
+username = 'postgres'
+password = 'postgres'
+database = 'dbtest'
 
 # connection
 connection = psycopg2.connect(

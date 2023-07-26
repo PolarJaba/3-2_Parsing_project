@@ -2,32 +2,41 @@ version: "3.9"
 services:
   app:
     build: ./app/
+    ports:
+      - 4000:4000
     depends_on:
-      db:
+      postgres:
         condition: service_healthy
     links:
-      - db
-  db:
+      - postgres
+    networks:
+      - project-network
+      
+  postgres:
     image: postgres:latest
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: "new_db"
-      POSTGRES_USER: "show"
-      POSTGRES_PASSWORD: "1238"
+      POSTGRES_DB: "dbtest"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ../2. Init Database:/docker-entrypoint-initdb.d
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready -U  show -d"]
+      test: ["CMD-SHELL", "pg_isready -U  postgres -d dbtest"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 4G
+    networks:
+        - project-network
+networks:
+  project-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
