@@ -2,6 +2,8 @@ version: "3.9"
 services:
   app:
     build: ./app/
+    networks:
+       - project-network
     depends_on:
       db:
         condition: service_healthy
@@ -20,14 +22,23 @@ services:
       - ../2. Init Database:/docker-entrypoint-initdb.d
       - ./data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready -U  show -d new_db"]
+      test: ["CMD-SHELL", "pg_isready -U  show -d new_db"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
-    restart: always
+    restart: unless-stopped
     deploy:
       resources:
         limits:
           cpus: '1'
           memory: 4G
+    networks:
+      - project-network
+networks:
+  project-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16 # Подсеть для контейнеров
