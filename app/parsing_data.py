@@ -4,8 +4,8 @@ import psycopg2
 # connection parameters
 host = 'postgres'
 port = '5432'
-username = 'postgres'
-password = 'postgres'
+username = 'show'
+password = '1238'
 database = 'dbtest'
 
 # connection
